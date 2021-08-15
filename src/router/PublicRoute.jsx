@@ -1,22 +1,20 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Route } from 'react-router-dom';
 
-import routes from '../constants/route';
+import Layout from '../components/Layout';
 
-export default function PublicRoute({ Component, restricted, ...rest }) {
-  const accessToken = useSelector((state) => state.auth.accessToken);
-
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        accessToken && restricted ? (
-          <Redirect to={routes.HOME} />
-        ) : (
-          <Component {...props} />
-        )
-      }
-    />
-  );
+export default function PublicRoute({
+  Component,
+  restricted,
+  isLayout,
+  ...rest
+}) {
+  if (isLayout) {
+    return (
+      <Layout>
+        <Route {...rest} render={(props) => <Component {...props} />} />
+      </Layout>
+    );
+  }
+  return <Route {...rest} render={(props) => <Component {...props} />} />;
 }

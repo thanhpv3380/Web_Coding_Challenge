@@ -1,4 +1,5 @@
 export default {
   HOME: '/',
-  LOGIN: '/login',
+  CREATE: '/create',
+  DETAIL: '/detail/:id',
 };

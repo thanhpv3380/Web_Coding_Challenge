@@ -1,46 +1,27 @@
 import React from 'react';
-import { BrowserRouter, Switch, Redirect } from 'react-router-dom';
-
-import PublicRoute from './PublicRoute';
-import PrivateRoute from './PrivateRoute';
-
+import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import routes from '../constants/route';
-
 import appRoutes from './appRoutes';
+import PublicRoute from './PublicRoute';
 
 export default () => (
   <BrowserRouter>
     <Switch>
       {appRoutes.map(
-        ({
-          path,
-          exact = true,
-          component: Component,
-          isPrivate = false,
-          ...rest
-        }) => {
-          if (!isPrivate) {
-            return (
-              <PublicRoute
-                key={path}
-                exact={exact}
-                path={path}
-                component={Component}
-                {...rest}
-              />
-            );
-          }
+        ({ path, isLayout, exact = true, component: Component, ...rest }) => {
           return (
-            <PrivateRoute
+            <PublicRoute
               key={path}
               exact={exact}
               path={path}
               component={Component}
               {...rest}
+              isLayout
             />
           );
         },
       )}
+
       <Redirect to={routes.HOME} />
     </Switch>
   </BrowserRouter>
